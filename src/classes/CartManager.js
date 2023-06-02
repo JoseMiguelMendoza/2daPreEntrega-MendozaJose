@@ -48,9 +48,9 @@ export default class CartManager{
 
     addProductInCart = async(cartId, productId) => {
         let cartById = await this.exist(cartId)
-        if(!cartById) return "Carrito no encontrado" // añadir mensaje de status.json
+        if(!cartById) return "Carrito no encontrado"
         let productById = await productManager.exist(productId)
-        if(!productById) return "Producto no encontrado" // añadir mensaje de status.json tambien
+        if(!productById) return "Producto no encontrado"
         let carts = await this.readCarts()
         let cartFilter = carts.filter(cart => cart.id != cartId)
 
@@ -59,11 +59,11 @@ export default class CartManager{
             moreProductInCart.quantity++;
             let cartsConcat = [cartById, ...cartFilter]
             await this.writeCarts(cartsConcat)
-            return "Producto sumado al carrito." // añadir mensaje de status.json
+            return "Producto sumado al carrito."
         }
         cartById.products.push({id: productById.id, quantity: 1})
         let cartsConcat = [cartById, ...cartFilter]
         await this.writeCarts(cartsConcat)
-        return "Producto agregado al carrito." //añadir mensaje de status.json
+        return "Producto agregado al carrito."
     }
 }

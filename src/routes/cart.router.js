@@ -25,7 +25,11 @@ CartRouter.post('/', async(req, res) => {
 CartRouter.post('/:cid/product/:pid', async(req, res) => {
     let cartId = req.params.cid
     let productId = req.params.pid
-    res.send(await cartManager.addProductInCart(cartId, productId))
+    let result = await cartManager.addProductInCart(cartId, productId)
+    if(result == "Carrito no encontrado") return res.status(404).json({ message: 'Carrito no encontrado.'})
+    if(result == "Producto no encontrado") return res.status(404).json({ message: 'Producto no encontrado.'})
+    if(result == "Producto sumado al carrito.") return res.status(200).json({ message: "Producto sumado al carrito."})
+    return res.status(200).json({ message: "Producto agregado al carrito." })
 })
 
 

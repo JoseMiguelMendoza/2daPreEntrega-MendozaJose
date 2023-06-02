@@ -71,7 +71,7 @@ router.get('/:id', async(req, res) => {
     }
 })
 
-// tengo una duda, cuando al codigo le pongo un 0 al inicio, me salta un error. Averiguar porque.
+// tengo una duda, cuando en el body, al codigo(code) le pongo un 0 al inicio, me salta un error. Averiguar porque.
 router.post('/', async(req, res) => {
     let newProduct = req.body
     if(await validateProduct(res, newProduct)){
