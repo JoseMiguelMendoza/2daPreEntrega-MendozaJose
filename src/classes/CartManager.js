@@ -15,8 +15,6 @@ export default class CartManager{
         let carts = await this.readCarts()
         return carts.find(cart => cart.id == id)
     }
-
-    // Intente usar el generateId de ProductManager.js, le cambie los nombres de products a cart, y me salian los id= 1 y id=2, pero al llegar al id = 2, al crear un carrito más, salia con id = 2, y asi con los siguientes. Usé nanoid para sacarme ese problema de encima.
     
     readCarts = async() => {
         let readingCarts = await fs.promises.readFile(this.path, this.#format)
@@ -33,7 +31,6 @@ export default class CartManager{
 
     addCarts = async(cart) => {
         let cartsOld = await this.readCarts()
-        // puse cart.id = this.#generateId(cartsOld) <-- no funcionó.
         let cartId = nanoid(5) 
         cart = {id: cartId, products: []}
         let allCarts = [cart, ...cartsOld]
