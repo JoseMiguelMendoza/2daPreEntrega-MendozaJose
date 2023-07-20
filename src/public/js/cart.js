@@ -2,33 +2,80 @@ const socket = io()
 
 const btnDeleteProdFromCart = document.getElementsByClassName('btnDeleteProdFromCart');
 
-Array.from(btnDeleteProdFromCart).forEach((button) => {
-    button.addEventListener('click', eliminarProductoDelCarrito);
-})
+const productsBox = document.querySelector('.productsBox');
+productsBox.addEventListener('click', eliminarProductoDelCarrito);
 
 function eliminarProductoDelCarrito(e) {
-    const cartId = e.target.dataset.cartId;
-    const productId = e.target.dataset.productId;
-    fetch(`/api/carts/${cartId}/products/${productId}`, {
-        method: 'DELETE'
-    })
-    .then(response => {
-        console.log(response)
-        if (response.ok) {
-            console.log('Producto eliminado del carrito');
-            socket.emit('eliminarProductoDelCarrito', {cartId, productId});
-        } else {
-            console.log('No se pudo eliminar el producto del carrito');
-        }
-    })
-    .catch(error => {
-        console.error('Error al eliminar el producto del carrito:', error);
-    });
+    if (e.target.classList.contains('btnDeleteProdFromCart')) {
+        let cartId = e.target.dataset.cartId;
+        let productId = e.target.dataset.productId;
+        fetch(`/api/carts/${cartId}/products/${productId}`, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (response.ok) {
+                Toastify({
+                    text: "Producto eliminado del carrito",
+                    duration: 1000,
+                    gravity: "top",
+                    offset: {
+                        x: 0,
+                        y: 52
+                    },
+                    close: false,
+                    position: "left",
+                    stopOnFocus: false,
+                    style: {
+                        background: "linear-gradient(to right, #020024, #790935, #ff003d)",
+                        width: "220px",
+                        height: "35px",
+                        position: "absolute",
+                        color: "white",
+                        text: "center",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        fontFamily: "'Kalam'",
+                        fontWeight: "bold"
+                    }
+                }).showToast();
+                socket.emit('eliminarProductoDelCarrito', {cartId, productId});
+            } else {
+                Toastify({
+                    text: "No se pudo eliminar el producto del carrito",
+                    duration: 2000,
+                    gravity: "top",
+                    offset: {
+                        x: 0,
+                        y: 52
+                    },
+                    close: false,
+                    position: "left",
+                    stopOnFocus: false,
+                    style: {
+                        background: "linear-gradient(to right, #020024, #790935, #ff003d)",
+                        width: "220px",
+                        height: "35px",
+                        position: "absolute",
+                        color: "white",
+                        text: "center",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        fontFamily: "'Kalam'",
+                        fontWeight: "bold"
+                    }
+                }).showToast();
+            }
+        })
+        .catch(error => {
+            console.error('Error al eliminar el producto del carrito:', error);
+        });
+    }
 }
 
 socket.on('productoEliminado', async(updatedCart) => {
     try {
-        console.log(updatedCart)
         let productsBox = document.querySelector('.productsBox');
         productsBox.innerHTML = '';
     
