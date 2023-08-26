@@ -1,7 +1,6 @@
 const socket = io()
 
 const btnDeleteProdFromCart = document.getElementsByClassName('btnDeleteProdFromCart');
-// const btnFinishBuying = document.getElementById('finishBuying')
 
 const productsBox = document.querySelector('.productsBox');
 productsBox.addEventListener('click', eliminarProductoDelCarrito);
@@ -10,7 +9,6 @@ function eliminarProductoDelCarrito(e) {
     if (e.target.classList.contains('btnDeleteProdFromCart')) {
         let cartId = e.target.dataset.cartId;
         let productId = e.target.dataset.productId;
-        console.log(cartId)
         fetch(`/api/carts/${cartId}/products/${productId}`, {
             method: 'DELETE'
         })
@@ -110,4 +108,73 @@ function finishBuying(cid){
         .catch(error => {
             console.error('Error fetching cart details:', error);
         });
+}
+
+function deleteAllProductsFromCart(cid){
+    let cartId = cid
+    fetch(`/api/carts/${cartId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            Toastify({
+                text: "Productos eliminados del carrito",
+                duration: 1000,
+                gravity: "top",
+                offset: {
+                    x: 0,
+                    y: 52
+                },
+                close: false,
+                position: "left",
+                stopOnFocus: false,
+                style: {
+                    background: "linear-gradient(to right, #020024, #790935, #ff003d)",
+                    width: "220px",
+                    height: "35px",
+                    position: "absolute",
+                    color: "white",
+                    text: "center",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    fontFamily: "'Kalam'",
+                    fontWeight: "bold"
+                }
+            }).showToast();
+            socket.emit('eliminarProductoDelCarrito', {cartId});
+        } else {
+            Toastify({
+                text: "No se pudieron eliminar los productos del carrito",
+                duration: 2000,
+                gravity: "top",
+                offset: {
+                    x: 0,
+                    y: 52
+                },
+                close: false,
+                position: "left",
+                stopOnFocus: false,
+                style: {
+                    background: "linear-gradient(to right, #020024, #790935, #ff003d)",
+                    width: "340px",
+                    height: "35px",
+                    position: "absolute",
+                    color: "white",
+                    text: "center",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    fontFamily: "'Kalam'",
+                    fontWeight: "bold"
+                }
+            }).showToast();
+        }
+    })
+    .catch(error => {
+        console.error('Error al eliminar los productos del carrito:', error.message);
+    });
 }

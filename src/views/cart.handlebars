@@ -36,11 +36,15 @@
         {{/if}}
     </div>
 </div>
-{{!-- {{#if isThereProducts}} --}}
-<div class="btnComprarContainer">
-    <button class="btnComprar" onclick="finishBuying('{{cid}}')">Comprar</button>
+
+<div style="display: flex; justify-content:center; align-items: center; gap: 10px; margin-bottom: 15px;">
+    <div class="btnComprarContainer">
+        <button class="btnComprar" onclick="finishBuying('{{cid}}')">Comprar</button>
+    </div>
+    <div class="btnComprarContainer">
+        <button class="btnVolver" onclick="deleteAllProductsFromCart('{{cid}}')">Vaciar carrito</button>
+    </div>
 </div>
-{{!-- {{/if}} --}}
 <footer class="footer">
     ¡Gracias por visitarnos!
 </footer>

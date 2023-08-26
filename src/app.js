@@ -104,7 +104,7 @@ io.on("connection", socket => {
             });
     });
 
-    socket.on('eliminarProductoDelCarrito', async({cartId, productId}) => {
+    socket.on('eliminarProductoDelCarrito', async({cartId}) => {
         try {
             let updatedCart = await cartModel.findById(cartId).populate('products.product').lean()
             socket.emit('productoEliminado', updatedCart);

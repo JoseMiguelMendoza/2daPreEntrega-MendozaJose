@@ -5,6 +5,7 @@ export default class CartDAO {
     getAllCarts = async() => await cartModel.find().lean().exec()
     createCart = async(data) => await cartModel.create(data)
     getCartById = async(id) => await cartModel.findById(id).lean().exec()
+    getCartByIdMongooseObj = async(id) => await cartModel.findById(id)
     addProductInCart = async(cid, pid) => {
         let cartByIdInDB = await cartModel.findById(cid)
         if(!cartByIdInDB) return 'Cart Not Found'

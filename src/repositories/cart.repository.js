@@ -5,6 +5,7 @@ export default class CartRepository {
     getAllCarts = async() => await this.dao.getAllCarts()
     createCart = async(data) => await this.dao.createCart(data)
     getCartById = async(id) => await this.dao.getCartById(id)
+    getCartByIdMongooseObj = async(id) => await this.dao.getCartByIdMongooseObj(id)
     addProductInCart = async(cid, pid) => await this.dao.addProductInCart(cid, pid)
     getProductsFromCart = async(req, res) => await this.dao.getProductsFromCart(req, res)
     updateCart = async(id, products) => await this.dao.updateCart(id, products)

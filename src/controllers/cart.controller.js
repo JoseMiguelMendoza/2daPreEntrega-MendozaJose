@@ -71,13 +71,15 @@ export const updateQuantityProductInCartController = async(req, res) => {
 export const deleteAllProductsFromCartController = async(req, res) => {
     try {
         const cid = req.params.cid;
-        const cart = await CartService.getCartById(cid)
+        const cart = await CartService.getCartByIdMongooseObj(cid)
         if (!cart) {
             return res.status(404).json({ status: 'error', error: 'Carrito no encontrado' })
         }
         cart.products = []
         await cart.save()
-    
+        
+        let productsPopulated = await CartService.productsPopulated(cid)
+        req.io.emit('productoEliminado', productsPopulated)
         res.status(200).json({ status: 'success', message: 'Todos los productos del carrito han sido eliminados' })
     } catch (err) {
         res.status(500).json({ status: 'error', error: err.message })
