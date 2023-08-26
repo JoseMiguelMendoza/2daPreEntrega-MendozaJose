@@ -1,17 +1,42 @@
 import express from 'express'
 import { Server } from 'socket.io'
 import handlebars from 'express-handlebars'
+import ProductManager from './dao/mongo/productManager.js'
+import MongoStore from 'connect-mongo'
+import mongoose from 'mongoose'
+import session from 'express-session'
+import config from './config/config.js'
+import passport from 'passport'
+import initializePassport from './config/passport.config.js'
+
+import messageModel from './models/message.model.js'
+import cartModel from './models/cart.model.js'
+
 import productRouter from './routes/product.router.js'
+import viewsRouter from './routes/views.router.js'
 import cartRouter from './routes/cart.router.js'
 import chatRouter from './routes/chat.router.js'
-import viewsRouter from './routes/views.router.js'
-import ProductManager from './dao/mongo/productManager.js'
-import messageModel from './dao/models/message.model.js'
-import mongoose from 'mongoose'
-import cartModel from './dao/models/cart.model.js'
+import sessionRouter from './routes/session.router.js'
 
 const app = express()
-const PORT = 8080
+export const PORT = config.apiserver.port
+
+app.use(session({
+    store: MongoStore.create({
+        mongoUrl: config.mongo.uri,
+        collectionName: config.mongo.collectionName,
+        mongoOptions: {
+            useNewUrlPArser: true,
+            useUnifiedTopology: true
+        }
+    }),
+    secret: config.mongo.secret,
+    resave: true,
+    saveUninitialized: true
+}))
+initializePassport()
+app.use(passport.initialize())
+app.use(passport.session())
 
 const productManager = new ProductManager()
 const httpServer = app.listen(PORT, () =>  console.log(`Server Express Puerto ${PORT}`))
@@ -34,10 +59,11 @@ app.use('/api/products', productRouter)
 app.use('/api/carts', cartRouter)
 app.use('/', viewsRouter)
 app.use('/chat', chatRouter)
+app.use('/', sessionRouter)
 
 mongoose.set('strictQuery', false)
 try{
-    await mongoose.connect('mongodb+srv://coder:coder@cluster0.tvsk3y1.mongodb.net/ecommerce')
+    await mongoose.connect(config.mongo.uri)
     console.log('DB connected!')
 } catch(err){
     console.log(err.message)
@@ -45,7 +71,6 @@ try{
 
 io.on("connection", socket => {
     console.log('A new client has connected to the Server')
-
     socket.on('productList', async(data) => {
         await productManager.addProducts(data)
             .then(data => {
@@ -81,11 +106,10 @@ io.on("connection", socket => {
 
     socket.on('eliminarProductoDelCarrito', async({cartId, productId}) => {
         try {
-            let updatedCart = await cartModel.findById(cartId).populate('products.product').lean().exec();
-            io.emit('productoEliminado', updatedCart);
+            let updatedCart = await cartModel.findById(cartId).populate('products.product').lean()
+            socket.emit('productoEliminado', updatedCart);
         } catch (error) {
             console.error('Error al eliminar el producto del carrito:', error);
         }
     })
 });
-

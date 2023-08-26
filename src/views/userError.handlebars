@@ -1,0 +1,19 @@
+<div>
+    <div class="errorMessage">
+        <h1>Error {{statusCode}}</h1>
+        <div>
+            {{error}}
+        </div>
+    </div>
+    <div class="buttonBox">
+        {{#if user}}
+            {{#if userRole}}
+            <a style="background-color: green; color: white; text-decoration: none; padding: 10px 15px; border-radius: 10px; font-family: 'Kalam', cursive;"  href="/realTimeProducts">Go back</a>
+            {{else}}
+            <a style="background-color: green; color: white; text-decoration: none; padding: 10px 15px; border-radius: 10px; font-family: 'Kalam', cursive;"  href="/products">Products</a>
+            {{/if}}
+        {{else}}
+        <a style="background-color: green; color: white; text-decoration: none; padding: 10px 15px; border-radius: 10px; font-family: 'Kalam', cursive;" href="/login">Login</a>
+        {{/if}}
+    </div>
+</div>

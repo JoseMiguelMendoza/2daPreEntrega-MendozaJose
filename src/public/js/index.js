@@ -25,7 +25,11 @@ buttonForm.addEventListener('click', (e) => {
             else {
                 socket.emit('productList', result.payload)
             }
-            alert('Producto creado ha sido añadido.')
+            Swal.fire(
+                '¡Creado!',
+                'Producto creado exitosamente.',
+                'success'
+            )
             document.getElementById('title').value = ''
             document.getElementById('description').value = ''
             document.getElementById('price').value = ''
@@ -43,7 +47,11 @@ deleteProduct = (id) => {
     .then(result => result.json())
     .then(result => {
         if(result.status === 'error') throw new Error(result.error)
-        alert('Producto Eliminado con exito.')
+        Swal.fire(
+            '¡Eliminado!',
+            'Producto eliminado con exito.',
+            'success'
+        )
     })
     .catch(err => alert(`Ocurrio un error: (\n${err})`))
 }

@@ -1,3 +1,20 @@
+<div class="navbar">
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <img style="margin-left: 5px; height: 45px;" src="/assets/icono-perfil.png" alt="Imagen de perfil">
+        <p style="color: white; font-family:'Kalam', cursive;">¡Bienvenido/a {{role}}, {{name}}!</p>
+        <div style="border-right: 1px solid white; color: #003500">---</div>
+        <a style="text-decoration: none;" href="/products"><p style="margin-left: 15px; font-family: 'Kalam', cursive; font-size: 18px; color: white;">Home</p></a>
+    </div>
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <a style="text-decoration: none;" href="/carts/{{cid}}"><img style="margin-right: 15px; height: 35px;" src="/assets/carro-de-la-compra.png" alt="imagen-carrito"></a>
+        {{#if checkingRole}}
+            <div style="border-left: 1px solid white; color: #003500">--</div>
+            <a href="/realTimeProducts" style="text-decoration: none; font-family: 'Kalam', cursive; margin-right: 10px; color: white; font-weight: bold;">POST/DELETE products</a>
+        {{/if}}
+        <div style="border-left: 1px solid white; color: #003500">--</div>
+        <a href="/logout" style="text-decoration: none; font-family: 'Kalam', cursive; margin-right: 15px; color: white; font-weight: bold;">Logout</a>
+    </div>
+</div>
 <div class="cartBoxContainer">
     <div class="cartIdBox">
         <p>Carrito ID: {{cid}}</p>
@@ -19,9 +36,14 @@
         {{/if}}
     </div>
 </div>
+{{!-- {{#if isThereProducts}} --}}
 <div class="btnComprarContainer">
-    <button class="btnComprar" onclick="finishBuying('{{cid}}')">Finalizar compra</button>
+    <button class="btnComprar" onclick="finishBuying('{{cid}}')">Comprar</button>
 </div>
+{{!-- {{/if}} --}}
+<footer class="footer">
+    ¡Gracias por visitarnos!
+</footer>
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script src="/socket.io/socket.io.js"></script>

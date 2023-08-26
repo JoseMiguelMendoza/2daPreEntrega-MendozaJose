@@ -1,44 +1,30 @@
-import productModel from '../../models/product.model.js'
-import cartModel from '../../models/cart.model.js'
+import cartModel from '../models/cart.model.js'
+import productModel from '../models/product.model.js'
 
-export default class CartManager{
-    constructor(){
-    }
-
-    getCarts = async() => {
-        return await cartModel.find().lean().exec()
-    }
-
-    addCarts = async(cart) => {
-        return await cartModel.create(cart)
-    }
-
-
-    getCartsById = async(id) => {
-        return await cartModel.findById(id).lean().exec()
-    }
-
-    addProductInCart = async(cartId, productId) => {
-        let cartByIdInDB = await cartModel.findById(cartId)
+export default class CartDAO {
+    getAllCarts = async() => await cartModel.find().lean().exec()
+    createCart = async(data) => await cartModel.create(data)
+    getCartById = async(id) => await cartModel.findById(id).lean().exec()
+    addProductInCart = async(cid, pid) => {
+        let cartByIdInDB = await cartModel.findById(cid)
         if(!cartByIdInDB) return 'Cart Not Found'
-        let productByIdInDB = await productModel.findById(productId)
+        let productByIdInDB = await productModel.findById(pid)
         if(!productByIdInDB) return 'Product Not Found'
 
         const productIndex = cartByIdInDB.products.findIndex(
-            (item) => item.product.toString() === productId
+            (item) => item.product.toString() === pid
         );
         if (productIndex !== -1) {
             cartByIdInDB.products[productIndex].quantity += 1;
         } else {
             cartByIdInDB.products.push({
-            product: productId,
+            product: pid,
             quantity: 1,
             });
         }
         await cartByIdInDB.save()
         return cartByIdInDB
     }
-
     getProductsFromCart = async(req, res) => {
         try{
             const id = req.params.cid
@@ -51,8 +37,10 @@ export default class CartManager{
             res.status(500).json({ status: 'error', error: err.message })
         }
     }
+    
+    updateCart = async(cid, products) => await cartModel.findByIdAndUpdate(cid, { products }, { new: true })
 
-    updatedCart = async(cid, products) => await cartModel.findByIdAndUpdate(cid, { products }, { new: true })
+    productsPopulated = async(cid) => await cartModel.findById(cid).populate('products.product').lean()
 
     deleteProductFromCart = async(cid, pid) => {
         const cart = await cartModel.findById(cid)

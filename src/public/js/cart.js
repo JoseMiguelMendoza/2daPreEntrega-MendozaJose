@@ -1,6 +1,7 @@
 const socket = io()
 
 const btnDeleteProdFromCart = document.getElementsByClassName('btnDeleteProdFromCart');
+// const btnFinishBuying = document.getElementById('finishBuying')
 
 const productsBox = document.querySelector('.productsBox');
 productsBox.addEventListener('click', eliminarProductoDelCarrito);
@@ -9,6 +10,7 @@ function eliminarProductoDelCarrito(e) {
     if (e.target.classList.contains('btnDeleteProdFromCart')) {
         let cartId = e.target.dataset.cartId;
         let productId = e.target.dataset.productId;
+        console.log(cartId)
         fetch(`/api/carts/${cartId}/products/${productId}`, {
             method: 'DELETE'
         })
@@ -96,3 +98,16 @@ socket.on('productoEliminado', async(updatedCart) => {
         console.error('Error al eliminar el producto del carrito:', error);
     }
 });
+
+function finishBuying(cid){
+    let cartId = cid
+    console.log(cartId)
+    fetch(`/api/carts/${cartId}`)
+        .then(response => response.json())
+        .then(data => {
+            window.location.href = `/${cartId}/purchase`;
+        })
+        .catch(error => {
+            console.error('Error fetching cart details:', error);
+        });
+}

@@ -1,3 +1,18 @@
+<div class="navbar">
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <img style="margin-left: 5px; height: 45px;" src="/assets/icono-perfil.png" alt="Imagen de perfil">
+        <p style="color: white; font-family:'Kalam', cursive;">¡Bienvenido/a {{role}}, {{name}}!</p>
+    </div>
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <a href="/" style="text-decoration: none; font-family: 'Kalam', cursive; margin-right: 10px; color: white; font-weight: bold;">Search Products</a>
+        <div style="border-left: 1px solid white; color: #003500">--</div>
+        {{#if checkingRole}}
+            <a href="/realTimeProducts" style="text-decoration: none; font-family: 'Kalam', cursive; margin-right: 10px; color: white; font-weight: bold;">POST/DELETE products</a>
+        {{/if}}
+        <div style="border-left: 1px solid white; color: #003500">--</div>
+        <a href="/logout" style="text-decoration: none; font-family: 'Kalam', cursive; margin-right: 15px; color: white; font-weight: bold;">Logout</a>
+    </div>
+</div>
 <h1 class="mainTitle">Productos agregados hasta el momento</h1>
 <div class="generalContainer">       
     {{#each products}}
@@ -14,3 +29,18 @@
     </div>
     {{/each}}
 </div>
+<div class="buttonsContainer">
+    {{#if paginateInfo.hasPrevPage}}
+    <div class="boxA">
+        <a href="{{paginateInfo.prevLink}}">Anterior</a>
+    </div>
+    {{/if}}
+    {{#if paginateInfo.hasNextPage}}
+    <div class="boxA">
+        <a href="{{paginateInfo.nextLink}}">Siguiente</a>
+    </div>   
+    {{/if}}
+</div>
+<footer class="footer">
+    ¡Gracias por visitarnos!
+</footer>

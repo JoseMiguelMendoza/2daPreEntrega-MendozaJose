@@ -1,0 +1,51 @@
+<div class="purchaseTitleBoxContainer">
+    <div class="purchaseTitleBox">
+        <p>Productos a comprar:</p>
+    </div>
+</div>
+<div class="purchaseBoxContainer" style="margin-top: 0; min-height: 694px;">
+    <div class="purchaseBox">
+        {{#each cart_data}}
+            <div class="containerPurchaseProduct">
+                <div class="fontSizePropertiesProduct">
+                    <b>Title:</b> {{this.product.title}}
+                </div>
+                <div class="fontSizePropertiesProduct">
+                    <b>Category:</b> {{this.product.category}}
+                </div>
+                <div class="fontSizePropertiesProduct">
+                    <b>Quantity:</b> {{this.quantity}}
+                </div>
+                <div class="fontSizePropertiesProduct">
+                    <b>Price:</b> ${{this.product.price}}
+                </div>
+                    <div class="fontSizePropertiesProduct">
+                        <b>In Stock:</b> 
+                        {{#if this.isAvailable}}
+                            <p style="color: green; display: inline;">Available</p>
+                            {{else}}
+                            <p style="color: red; display: inline;">Not Available</p>
+                        {{/if}}
+                    </div>
+                </div>
+                <div class="totalPriceProductBox">
+                    <div class="fontSizePropertiesTotalPriceProduct">
+                        <b>Total price:</b> ${{this.totalPrice}}
+                    </div>
+                </div>
+        {{/each}}
+    </div>
+</div>
+<div class="totalBoxContainer">
+    <div class="totalBox">
+        <p>Total: ${{total_price}}</p>
+    </div>
+</div>
+<div style="display: flex; justify-content:center; align-items: center; gap: 10px; margin-bottom: 15px;">
+    <div class="btnComprarContainer">
+        <a href="/carts/{{cid}}"><button class="btnVolver">Cancelar compra</button></a>
+    </div>
+    <div class="btnComprarContainer">
+        <button class="btnComprar">Finalizar compra</button>
+    </div>
+</div>

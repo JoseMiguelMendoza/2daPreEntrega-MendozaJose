@@ -1,29 +1,8 @@
-import productModel from "../../models/product.model.js"
-export default class ProductManager{
-    constructor(){
-    }
+import productModel from "../models/product.model.js";
 
-    getProducts = async() => {
-        return await productModel.find().lean().exec()
-    }
-
-    addProducts = async(product) => {
-        return await productModel.create(product)
-    }
-
-    getProductById = async(id) => {
-        return await productModel.findById(id)
-    }
-
-    updateProducts = async(id, product) => {
-        return await productModel.findByIdAndUpdate(id, product, { returnDocument: "after"})
-    }
-
-    deleteProducts = async(id) => {
-        return await productModel.findByIdAndDelete(id)
-    }
-
-    getProductsWithFilters = async(req) => {
+export default class ProductDAO {
+    getAllProducts = async() => await productModel.find().lean().exec()
+    getAllPaginatedProducts = async(req) => {
         try{
             const PORT = 8080
             const limit = req.query.limit || 10
@@ -74,4 +53,8 @@ export default class ProductManager{
             }
         }
     }
+    getProductById = async(id) => await productModel.findById(id)
+    createProduct = async(data) => await productModel.create(data)
+    updateProduct = async(id, data) => await productModel.findByIdAndUpdate(id, data, { returnDocument: 'after' })
+    deleteProduct = async(id) => await productModel.findByIdAndDelete(id) 
 }

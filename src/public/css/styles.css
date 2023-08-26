@@ -16,7 +16,7 @@ body{
     background-position: 40% 60%;
 }
 
-/* Clase de main.handlebars */
+/* Clase de navbar y footer generales en ciertas vistas. */
 
 .navbar{
     background-color: #003500;
@@ -331,7 +331,7 @@ div div li{
     display: flex;
     justify-content: space-around;
     padding: 45px;
-    border-top: 1px solid grey;
+    border-top: 1px solid rgb(209, 209, 209);
 }
 
 .containerMessage{
@@ -372,6 +372,250 @@ div div .containerProduct:first-child{
     height: 45px;
     text-align: center;
     background-color: #c00000;
+    border: 1px solid white;
+    border-radius: 10px;
+    color: white;
+    font-family: 'Kalam', cursive;
+    cursor: pointer;
+}
+
+/* Clases para login.handlebars */
+
+#formularioLogin {
+    min-height: 809px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.inputsAndButtonLogin{
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 20px;
+    width: 550px;
+    display: flex;
+    flex-direction: column;
+    height: 305px;
+    background-color: rgba(255, 252, 226, 0.822);
+}
+
+#formularioLogin div h1{
+    text-align: center;
+    font-family: 'Kalam', cursive;
+    margin-bottom: 10px;
+    border: 1px solid black;
+    color: white;
+    background-color: #003500;
+}
+
+#formularioLogin div label{
+    font-family: 'Kalam', cursive;
+    margin-bottom: 10px;
+}
+
+#formularioLogin div label input{
+    border-radius: 10px;
+    height: 30px;
+    width: 510px;
+    padding: 10px;
+}
+
+#formularioLogin div div button{
+    text-align: center;
+    margin-top: 10px;
+    height: 35px;
+    border: 1px solid white;
+    border-radius: 10px;
+    width: 200px;
+    cursor: pointer;
+    font-family: 'Kalam', cursive;
+    font-weight: bold;
+    background-color: #003500;
+    color: white;
+}
+
+.buttonBox{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.registerViewA{
+    text-decoration: none;
+    margin: 10px 0;
+    color: rgb(0, 0, 0);
+    font-family: 'Kalam', cursive;
+    font-weight: bold;
+}
+
+/* Clases para register.handlebars */
+
+.formularioRegister{
+    min-height: 809px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.containerRegister{
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 20px;
+    width: 550px;
+    display: flex;
+    flex-direction: column;
+    height: 496px;
+    background-color: rgba(255, 252, 226, 0.822);
+}
+
+.containerRegister h1{
+    text-align: center;
+    font-family: 'Kalam', cursive;
+    margin-bottom: 10px;
+    border: 1px solid black;
+    color: white;
+    background-color: #003500;
+}
+
+.containerRegister label{
+    font-family: 'Kalam', cursive;
+    margin-bottom: 10px;
+}
+
+.containerRegister label input {
+    border-radius: 10px;
+    height: 30px;
+    width: 510px;
+    padding: 10px;
+}
+
+.containerRegister .buttonBox button{
+    text-align: center;
+    margin-top: 5px;
+    height: 35px;
+    border: 1px solid white;
+    border-radius: 10px;
+    width: 200px;
+    cursor: pointer;
+    font-family: 'Kalam', cursive;
+    font-weight: bold;
+    background-color: #003500;
+    color: white;
+}
+
+/* Clase para userError.handlebars */
+
+.errorMessage{
+    height: 890px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Kalam', cursive;
+    font-weight: bold;
+    font-size: 50px;
+    gap: 10px;
+}
+
+.errorMessage h1 {
+    background-color: #db3e3e;
+    padding: 15px;
+    border-radius: 15px;
+}
+
+.errorMessage div{
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #c00000;
+    border-radius: 10px;
+    padding: 15px;
+    min-height: 188px;
+}
+
+/* Clases para purchase.handlebars */
+
+.purchaseTitleBoxContainer{
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+}
+
+.purchaseTitleBox{
+    border: 1px solid rgb(255, 255, 255);
+    background-color: rgb(34, 77, 33);
+    text-align: center;
+    font-family: 'Kalam', cursive;
+    font-size: 30px;
+    color: white;
+    width: 50%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.purchaseBoxContainer{
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+}
+
+.containerPurchaseProduct{
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 25px;
+    border-top: 1px solid rgb(209, 209, 209);
+}
+
+.containerPurchaseProduct:first-child{
+    border-top: 0;
+}
+
+.purchaseBox{
+    width: 50%;
+    text-align: center;
+    font-family: 'Kalam', cursive;
+    border: 1px solid rgb(255, 255, 255);
+    background-color: rgb(226, 226, 226);
+}
+
+.totalPriceProductBox{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 7px;
+}
+
+.fontSizePropertiesTotalPriceProduct{
+    font-size: 20px;
+    background-color: #ece5bd;
+    width: 96%;
+}
+
+.totalBoxContainer{
+    display: flex;
+    justify-content: center;
+}
+
+.totalBox{
+    border: 1px solid rgb(255, 255, 255);
+    background-color: rgb(34, 77, 33);
+    padding-left: 20px;
+    font-family: 'Kalam', cursive;
+    font-size: 30px;
+    color: white;
+    width: 50%;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.btnVolver{
+    width: 140px;
+    height: 45px;
+    text-align: center;
+    background-color: #800202;
     border: 1px solid white;
     border-radius: 10px;
     color: white;

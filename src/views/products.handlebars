@@ -1,3 +1,16 @@
+<div class="navbar">
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <img style="margin-left: 5px; height: 45px;" src="/assets/icono-perfil.png" alt="Imagen de perfil">
+        <p style="color: white; font-family:'Kalam', cursive;">¡Bienvenido/a {{role}}, {{name}}!</p>
+        <div style="border-right: 1px solid white; color: #003500">---</div>
+        <a style="text-decoration: none;" href="/products"><p style="margin-left: 15px; font-family: 'Kalam', cursive; font-size: 18px; color: white;">Home</p></a>
+    </div>
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <a style="text-decoration: none;" href="/carts/{{cid}}"><img style="margin-right: 15px; height: 35px;" src="/assets/carro-de-la-compra.png" alt="imagen-carrito"></a>
+        <div style="border-left: 1px solid white; color: #003500">--</div>
+        <a href="/logout" style="text-decoration: none; font-family: 'Kalam', cursive; margin-right: 15px; color: white; font-weight: bold;">Logout</a>
+    </div>
+</div>
 <div class="positionTitle">
     <h1 class="productsTitle">Productos a la venta</h1>
 </div>
@@ -23,7 +36,7 @@
                 <td>{{this.stock}}</td>
                 <td>{{this.category}}</td>
                 <td>{{this.price}}</td>
-                <td><button class="buttonAddToCart" data-product-id="{{this._id}}">Agregar al carrito</button></td>
+                <td><button class="buttonAddToCart" data-cart-id="{{@root.cid}}" data-product-id="{{this._id}}">Agregar al carrito</button></td>
             </tr>
             {{/each}}
         </tbody>
@@ -41,6 +54,9 @@
     </div>   
     {{/if}}
 </div>
+<footer class="footer">
+    ¡Gracias por visitarnos!
+</footer>
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script src="/socket.io/socket.io.js"></script>

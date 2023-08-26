@@ -6,10 +6,11 @@ for (let i = 0; i < buttonAddToCart.length; i++) {
         fetch('/api/carts')
             .then(response => response.json())
             .then(data => {
-                if (data.payload && data.payload.length > 0) {
-                    cartId = data.payload[0]._id; // Obtener el ID del primer carrito
+                if (data.payload) {
+                    cartId = e.target.getAttribute('data-cart-id')
+                    console.log(cartId)
                     const productId = e.target.getAttribute('data-product-id'); 
-                    const body = { product: productId, quantity: 1 }; // Datos del producto a agregar
+                    const body = { product: productId, quantity: 1 };
                     return fetch(`/api/carts/${cartId}/product/${productId}`, {
                         method: 'POST',
                         headers: {
