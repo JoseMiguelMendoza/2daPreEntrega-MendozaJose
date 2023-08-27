@@ -10,7 +10,7 @@ export const auth = async(req, res, next) => {
         })
     }
     const user = await UserService.findUserById(req.session.passport.user)
-    if(user.email === process.env.ADMIN_EMAIL && user.role === "Administrador/a") {
+    if(user.role === "Administrador/a") {
         return next()
     }
     return res.render('userError', {
@@ -31,18 +31,19 @@ export const auth2 = async(req, res, next) => {
             user: false
         })
     }
+    
     const user = await UserService.findUserById(req.session.passport.user)
     if(user.role === "Usuario/a") {
         return next()
+    }else{
+        return res.render('userError', {
+            title: 'Not a User',
+            statusCode: 403,
+            error: 'Only avaiable for Users.',
+            user: req.session.passport.user ? true : false,
+            userRole: user.role === 'Administrador/a' ? true : false
+        })
     }
-    return res.render('userError', {
-        title: 'Not a User',
-        statusCode: 403,
-        error: 'Only avaiable for Users.',
-        user: req.session.passport.user ? true : false,
-        userRole: user.role === 'Administrador/a' ? true : false
-
-    })
 }
 
 export const auth3 = async(req, res, next) => {
@@ -50,11 +51,12 @@ export const auth3 = async(req, res, next) => {
         return next()
     }
     const user = await UserService.findUserById(req.session.passport.user)
+    console.log(user)
     if(user.role === 'Administrador/a'){
-        res.redirect('/realTimeProducts')
+        return res.redirect('/realTimeProducts')
     }
     if(user.role === 'Usuario/a'){
-        res.redirect('/products')
+        return res.redirect('/products')
     }
 }
 
@@ -179,8 +181,6 @@ export const renderCartWithProductsPlusInfoUserController = async(req, res) =>{
         let cid = req.params.cid
         let cartById = await CartService.productsPopulated(cid)
         const user = await UserService.findUserById(req.session.passport.user)
-
-        // console.log(cartById.products)
         if(cartById === null){
             return res.status(404).json({ status: 'error', error: 'Not Found'})
         }
@@ -188,7 +188,6 @@ export const renderCartWithProductsPlusInfoUserController = async(req, res) =>{
             title: 'Carrito',
             cid: user.cart,
             products: cartById.products,
-            // isThereProducts: cartById.products === [] ? true : false,
             name: user.name,
             role: user.role,
             checkingRole: user.role === 'Administrador/a' ? true : false

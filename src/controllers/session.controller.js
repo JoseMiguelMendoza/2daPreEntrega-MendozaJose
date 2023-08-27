@@ -9,10 +9,10 @@ export const redirectionLoginController = async (req, res) => {
     const userId = req.session.passport.user
     const user = await UserService.findUserById(userId)
     if(user.role === 'Administrador/a'){
-        res.redirect('/realTimeProducts')
+        return res.redirect('/realTimeProducts')
     }
     if(user.role === 'Usuario/a'){
-        res.redirect('/products')
+        return res.redirect('/products')
     }
 }
 
@@ -20,14 +20,14 @@ export const destroyingSessionController = (req, res) => {
     req.session.destroy(err => {
         if(err) {
             console.log(err);
-            res.redirect('/userError')
-        } else res.redirect('/login')
+            return res.redirect('/userError')
+        } else return res.redirect('/login')
     })
 }
 
 export const redirectionGithubController = async(req, res) => {
     req.session.user = req.user
-    res.redirect('/products')
+    return res.redirect('/products')
 }
 
 export const userCompleteInfoController = async(req, res) => {
@@ -36,7 +36,7 @@ export const userCompleteInfoController = async(req, res) => {
         error: 'No session detected.'
     })
     let user_data = await UserService.findUserById(req.session.passport.user)
-    res.status(200).json({ status: 'success', 
+    return res.status(200).json({ status: 'success', 
     // payload: {
     //     ID_USER: req.session.passport.user,
     //     USER_DATA: {

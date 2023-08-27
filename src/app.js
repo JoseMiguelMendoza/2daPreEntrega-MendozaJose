@@ -1,4 +1,5 @@
 import express from 'express'
+import cors from 'cors'
 import { Server } from 'socket.io'
 import handlebars from 'express-handlebars'
 import ProductManager from './dao/mongo/productManager.js'
@@ -49,6 +50,7 @@ app.set('view engine', 'handlebars')
 app.use(express.static('./src/public'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use(cors())
 
 app.use((req, res, next) => {
     req.io = io
@@ -70,7 +72,7 @@ try{
 }
 
 io.on("connection", socket => {
-    console.log('A new client has connected to the Server')
+    // console.log('A new client has connected to the Server')
     socket.on('productList', async(data) => {
         await productManager.addProducts(data)
             .then(data => {

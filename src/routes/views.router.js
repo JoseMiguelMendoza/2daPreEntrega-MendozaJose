@@ -3,7 +3,7 @@ import {
     auth, 
     auth2, 
     auth3, 
-    finishingShoppingController, 
+    finishingShoppingController,
     renderCartWithProductsPlusInfoUserController, 
     renderFailLoginViewController, 
     renderFailRegisterViewController, 
