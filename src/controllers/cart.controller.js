@@ -1,4 +1,4 @@
-import { CartService } from "../services/index.js"
+import { CartService, ProductService, TicketService, UserService } from "../services/index.js"
 
 
 export const getCartsController = async(req, res) => {
@@ -27,6 +27,68 @@ export const addProductInCartWithCidAndPidController = async(req, res) => {
             return res.status(400).json({ status: 'error', error: result })
         }
         return res.status(201).json({ status: 'success', payload: result })
+    }catch(err){
+        res.status(500).json({ status: 'error', error: err.message })
+    }
+}
+
+export const generateTicketController = async(req, res) => {
+    try{
+        let cartId = req.params.cid
+        const user = await UserService.findUserById(req.session.passport.user)
+        let productsInCart = await CartService.getProductsFromCart(req, res)
+        let totalCartPrice = 0;
+        let totalPrice = 0;
+        let productsToPurchase = [];
+        let productsUnavailable = []
+    
+        productsInCart.products.map(item => {
+            const isAvailable = item.product.stock - item.quantity > 0;
+            if(isAvailable){
+                totalPrice = item.product.price * item.quantity;
+                totalCartPrice  += totalPrice;
+                productsToPurchase.push({
+                    product: item.product._id,
+                    quantity: item.quantity,
+                });
+            }
+            else{
+                totalPrice = item.product.price * item.quantity
+                productsUnavailable.push({
+                    product: item.product._id,
+                    quantity: item.quantity
+                })
+            }
+            if (productsToPurchase.length === 0) {
+                return res.status(400).json({ status: 'error', error: 'No hay productos disponibles para comprar' });
+            }
+            return {
+                ...item,
+                isAvailable: isAvailable,
+                totalPrice: totalPrice
+            };
+        });
+
+        for (const productData of productsToPurchase) {
+            const product = await ProductService.getProductById(productData.product);
+            if (product) {
+                product.stock -= productData.quantity;
+                await product.save();
+            }
+        }
+
+        let newTicket = {
+            ammount: totalCartPrice,
+            purchaser: user.email,
+            products: productsToPurchase
+        }
+
+        let ticketGenerated = await TicketService.createTicket(newTicket)
+        let userCart = await CartService.getCartByIdMongooseObj(cartId)
+
+        userCart.products = productsUnavailable
+        await userCart.save()
+        res.status(200).json({ status: 'success', payload: ticketGenerated })
     }catch(err){
         res.status(500).json({ status: 'error', error: err.message })
     }

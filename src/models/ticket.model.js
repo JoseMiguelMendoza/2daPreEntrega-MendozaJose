@@ -8,9 +8,17 @@ const ticketSchema = new mongoose.Schema({
         required: true,
         default: () => nanoid(15)
     },
-    purchase_datetime: 'created_at',
+    purchase_datetime: { type: Date, default: Date.now },
     ammount: {type: Number},
-    purchaser: {type: String, required: true}
+    purchaser: {type: String, required: true},
+    products: [{
+        _id: false,
+        product: { 
+            type: mongoose.Schema.Types.ObjectId, 
+            ref: 'products' 
+        },
+        quantity: { type: Number }
+    }]
 })
 
 mongoose.set('strictQuery', false)
